@@ -19,7 +19,7 @@ import java.util.*;
 @CrossOrigin
 public class EventController {
 
-    private String indexName = "sync_index";
+    private String indexName = "event_index";
 
     private String esType = "events";
 
