@@ -7,6 +7,7 @@ import com.ontology.controller.vo.TokenResp;
 import com.ontology.utils.ConfigParam;
 import com.ontology.utils.Constant;
 import com.ontology.utils.ElasticsearchUtil;
+import com.ontology.utils.ErrorInfo;
 import io.swagger.annotations.ApiOperation;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
@@ -29,7 +30,9 @@ public class DataIdController {
 
     @ApiOperation(value = "查询dataId历史信息", notes = "查询dataId历史信息", httpMethod = "POST")
     @GetMapping("/{dataId}")
-    public Result getPageData(@PathVariable String dataId) {
+    public Result queryDataIdHistory(@PathVariable String dataId) {
+        String action = "queryDataIdHistory";
+
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
 
         MatchQueryBuilder queryContract = QueryBuilders.matchQuery("contractAddress", configParam.CONTRACT_HASH_ONTID);
@@ -69,7 +72,7 @@ public class DataIdController {
         resp.setTxHash(txHash);
         resp.setCreatedTime(createdTime);
         resp.setTokens(tokens);
-        return new Result(0, "SUCCESS", resp);
+        return new Result(action, ErrorInfo.SUCCESS.code(), ErrorInfo.SUCCESS.descEN(), resp);
     }
 
 }

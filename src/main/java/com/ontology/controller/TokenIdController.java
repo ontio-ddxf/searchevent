@@ -8,6 +8,7 @@ import com.ontology.controller.vo.TokenTransferResp;
 import com.ontology.utils.ConfigParam;
 import com.ontology.utils.Constant;
 import com.ontology.utils.ElasticsearchUtil;
+import com.ontology.utils.ErrorInfo;
 import io.swagger.annotations.ApiOperation;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
@@ -31,7 +32,9 @@ public class TokenIdController {
 
     @ApiOperation(value = "查询tokenId历史信息", notes = "查询tokenId历史信息", httpMethod = "POST")
     @GetMapping("/{tokenId}")
-    public Result getPageData(@PathVariable Long tokenId) {
+    public Result queryTokenIdHistory(@PathVariable Long tokenId) {
+        String action = "queryTokenIdHistory";
+
         String strTokenId = Long.toString(tokenId, 16);
         int transferTimes = 0;
 
@@ -83,7 +86,7 @@ public class TokenIdController {
         tokenResp.setTransferTimes(transferTimes);
         tokenResp.setTokenTransferResp(tokenTransferResps);
 
-        return new Result(0, "SUCCESS", tokenResp);
+        return new Result(action, ErrorInfo.SUCCESS.code(), ErrorInfo.SUCCESS.descEN(), tokenResp);
     }
 
 }
